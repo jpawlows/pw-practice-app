@@ -2,11 +2,11 @@ import { state } from '@angular/animations'
 import {test , expect} from '@playwright/test'
 
 test.beforeEach(async ({page}) => {
-    await page.goto('http://www.uitestingplayground.com/ajax')
+    await page.goto(process.env.URL)
     await page.locator('#ajaxButton').click()
 })
 
-test.skip('auto waiting', async ({page}) => {
+test('auto waiting', async ({page}) => {
     const successButton = page.locator('.bg-success')
     //await successButton.click()
     //const text = await successButton.textContent()
@@ -18,7 +18,7 @@ test.skip('auto waiting', async ({page}) => {
 
 })
 
-test.skip( 'ALternative waits', async ({page}) => {
+test( 'ALternative waits', async ({page}) => {
     const successButton = page.locator('.bg-success')
     // __wait for element
     //await page.waitForSelector('.bg-success')

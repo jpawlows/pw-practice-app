@@ -2,10 +2,10 @@ import {test, expect} from '@playwright/test'
 import { using } from 'rxjs'
 
 test.beforeEach( async ({page}) => {
-    await page.goto('http://localhost:4200/')
+    await page.goto('/')
 })
 
-test.describe.only('Form Layouts page', () => {
+test.describe('Form Layouts page', () => {
     test.describe.configure({retries: 2})
     test.beforeEach( async({page}) => {
         await page.getByText('Forms').click()
@@ -72,16 +72,17 @@ test('Datepicker', async ({page}) => {
         const expectedMonthShort = date.toLocaleString('En-US', {month: 'short'})
         const expectedMonthLong = date.toLocaleString('En-US', {month: 'long'})
         const expectedYear = date.getFullYear()
-        const dateToAssert = '${expectedMonthShort} ${expectedDate} ${expectedYear}'
+        const dateToAssert = `${expectedMonthShort} ${expectedDate}, ${expectedYear}`
 
         let calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
-        const expectedMonthAndYear = '${expectedMonthLong} ${expectedYear}'
+        const expectedMonthAndYear = ` ${expectedMonthLong} ${expectedYear}`
+        
         while(!calendarMonthAndYear.includes(expectedMonthAndYear)){
-            await page.locator('nb-calendar-pageable-navigation [date-name="chevron-right"]').click()
+            await page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click()
             calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
         }
-        await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, {exact: true}).click()
-
+        await page.locator('.day-cell.ng-star-inserted').getByText(expectedDate, {exact: true}).
+        click()
         await expect(calendarInputField).toHaveValue(dateToAssert)
 })
 

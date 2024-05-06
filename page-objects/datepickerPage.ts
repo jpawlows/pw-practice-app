@@ -27,11 +27,6 @@ export class DatepickerPage{
         await expect(calendarInputField).toHaveValue(dateToAssert)
     }
 
-
-
-
-
-
     private async selectDateInTheCalendar(numberOfDaysFromToday: number) {
         let date = new Date()
         date.setDate(date.getDate() + numberOfDaysFromToday)
@@ -43,6 +38,7 @@ export class DatepickerPage{
 
         let calendarMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent()
         const expectedMonthAndYear = ` ${expectedMonthLong} ${expectedYear}`
+
         while(!calendarMonthAndYear.includes(expectedMonthAndYear)){
             await this.page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click()
             calendarMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent()
